@@ -1,29 +1,25 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'jenkins-demo-app'
-    }
-
-    stage('Build') {
-    steps {
-        echo 'Building Docker image...'
-        sh 'ls -l'               // show files to confirm package.json is there
-        sh 'docker build -t jenkins-demo-app .'
-    }
-}
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building Docker image...'
+                sh 'docker build -t 2-jenkins-docker .'
+            }
+        }
 
         stage('Test') {
             steps {
-                echo 'Running basic tests...'
-                sh 'echo "Tests passed!"'
+                echo 'Running tests...'
+                sh 'echo "No tests yet, skipping."'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying container...'
-                sh 'docker run -d -p 3000:3000 --name demo-app $IMAGE_NAME || true'
+                echo 'Deploying Docker container...'
+                sh 'docker run -d -p 3000:3000 --name jenkins-docker-container 2-jenkins-docker'
             }
         }
     }
