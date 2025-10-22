@@ -5,13 +5,13 @@ pipeline {
         IMAGE_NAME = 'jenkins-demo-app'
     }
 
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building Docker image...'
-                sh 'docker build -t $IMAGE_NAME .'
-            }
-        }
+    stage('Build') {
+    steps {
+        echo 'Building Docker image...'
+        sh 'ls -l'               // show files to confirm package.json is there
+        sh 'docker build -t jenkins-demo-app .'
+    }
+}
 
         stage('Test') {
             steps {
