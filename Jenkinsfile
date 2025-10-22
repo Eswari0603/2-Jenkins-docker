@@ -19,8 +19,17 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying Docker container...'
-                sh 'docker run -d -p 3000:3000 --name jenkins-docker-container 2-jenkins-docker'
-            }
-        }
+                sh '''
+                  # Stop old container if exists
+                     if [ $(docker ps -a -q -f name=jenkins-docker-container) ]; then
+                          docker stop jenkins-docker-container
+                          docker rm jenkins-docker-container
+                     fi
+
+                     # Run new container
+                     docker run -d -p 3000:3000 --name jenkins-docker-container 2-jenkins-docker
+                     '''
     }
 }
+        
+        
